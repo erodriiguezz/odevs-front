@@ -13,7 +13,7 @@ export default function Header() {
 
     const linkClass = (href: string) =>
     [
-        "px-4 py-1.5 text-xs font-medium rounded-md transition-all",
+        "px-4 py-2 text-sm font-medium rounded-md transition-all",
         pathname === href
         ? "bg-zinc-850 text-white shadow-sm"
         : "text-zinc-400 hover:text-zinc-200",
@@ -23,13 +23,13 @@ export default function Header() {
              className="sticky top-0 z-40 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-900"
              >
                 <div
-                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between"
+                    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between"
                 >
                     <div className="flex items-center gap-3 cursor-pointer">
                     <img
                         src="/images/logo.png"
                         alt="Orlando Devs"
-                        className="w-8 h-8 rounded-full object-cover border border-zinc-800"
+                        className="w-9 h-9 rounded-full object-cover border border-zinc-800"
                     />
                     </div>
 
@@ -46,7 +46,7 @@ export default function Header() {
                         href="https://discord.gg/v6gchdH43K"
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center bg-[#5865F2] hover:bg-[#4e5dEC] text-white px-4 py-2 rounded-lg text-xs font-medium transition duration-150 shadow-sm"
+                        className="flex items-center bg-[#5865F2] hover:bg-[#4e5dEC] text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-150 shadow-sm"
                     >
                         <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
                         <path
