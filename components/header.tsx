@@ -28,6 +28,9 @@ export default function Header() {
 
     return  <div className="sticky top-0 z-40 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-900">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <Image src="/images/logo.png" alt="Orlando Devs" width={36} height={36} className="w-9 h-9 rounded-full object-cover border border-zinc-800" />
+                    </div>
                     {isMobile ?
                         <div className="relative flex items-center">
                             <button
@@ -60,7 +63,7 @@ export default function Header() {
                             <div
                                 aria-hidden={!isMenuOpen}
                                 className={[
-                                    "absolute top-full left-0 z-50 mt-2 flex min-w-44 flex-col overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 py-1 shadow-lg shadow-black/40 origin-top-left transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                                    "absolute top-full right-0 z-50 mt-2 flex min-w-44 flex-col overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 pt-1 shadow-lg shadow-black/40 origin-top-right transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
                                     isMenuOpen
                                         ? "pointer-events-auto visible opacity-100 scale-100 translate-y-0"
                                         : "pointer-events-none invisible opacity-0 scale-80 -translate-y-10",
@@ -75,47 +78,70 @@ export default function Header() {
                                         style={{
                                             transitionDelay: isMenuOpen
                                                 ? `${index*40 + 75}ms`
-                                                : `${(navItems.length - index - 1) * 25}ms`,
+                                                : `${(navItems.length+1 - index) * 25}ms`,
                                         }}
                                         className={[
                                             linkClass(href),
-                                            "text-left transition-all duration-300 ease-out",
+                                            "text-left duration-300 ease-out",
                                             isMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-3 opacity-0",
                                         ].join(" ")}
                                     >{label}</Link>))}
+                                    
+                                    <a
+                                        href="https://discord.gg/v6gchdH43K"
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className={[
+                                            "flex items-center bg-[#5865F2] hover:bg-[#4e5dEC] text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ease-out shadow-sm",
+                                            isMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-3 opacity-0",
+                                        ].join(" ")}
+                                        onClick={() => setIsMenuOpen(false)}
+                                        style={{
+                                            transitionDelay: isMenuOpen
+                                                ? `${navItems.length*40 + 75}ms`
+                                                : `${25}ms`,
+                                        }}
+                                    >
+                                        <Image
+                                            src="/images/discord.svg"
+                                            alt="Discord Logo"
+                                            aria-hidden="true"
+                                            className="w-4 h-4 mr-2"
+                                            width={16}
+                                            height={16}
+                                        />
+
+                                        <span>Join Discord</span>
+                                    </a>
                             </div>
                         </div>
                      :
                         <>
-                            <div className="flex items-center gap-3">
-                                <Image src="/images/logo.png" alt="Orlando Devs" width={36} height={36} className="w-9 h-9 rounded-full object-cover border border-zinc-800" />
-                            </div>
                             <nav className="hidden md:flex items-center gap-1 bg-zinc-900 p-0.5 rounded-lg border border-zinc-800">
                                 {navItems.map(({ href, label }) => (
                                     <Link key={href} href={href} className={linkClass(href)}>{label}</Link>
                                 ))}
                             </nav>
+                            <div className="flex items-center">
+                                <a
+                                    href="https://discord.gg/v6gchdH43K"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="flex items-center bg-[#5865F2] hover:bg-[#4e5dEC] text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-150 shadow-sm"
+                                >
+                                    <Image
+                                        src="/images/discord.svg"
+                                        alt="Discord Logo"
+                                        aria-hidden="true"
+                                        className="w-4 h-4 mr-2"
+                                        width={16}
+                                        height={16}
+                                    />
+
+                                    <span>Join Discord</span>
+                                </a>
+                            </div>
                         </>}
-
-                    <div className="flex items-center">
-                        <a
-                            href="https://discord.gg/v6gchdH43K"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="flex items-center bg-[#5865F2] hover:bg-[#4e5dEC] text-white px-4 py-2.5 rounded-lg text-sm font-medium transition duration-150 shadow-sm"
-                        >
-                            <Image
-                                src="/images/discord.svg"
-                                alt="Discord Logo"
-                                aria-hidden="true"
-                                className="w-4 h-4 mr-2"
-                                width={16}
-                                height={16}
-                            />
-
-                            <span>Join Discord</span>
-                        </a>
-                    </div>
                 </div>
             </div>
 }
