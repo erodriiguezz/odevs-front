@@ -86,7 +86,7 @@ export default function Header() {
                             <div
                                 aria-hidden={!isMenuOpen}
                                 className={[
-                                    "absolute top-full right-0 z-50 mt-2 flex min-w-44 flex-col overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 pt-1 shadow-lg shadow-black/40 origin-top-right transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                                    "absolute top-full right-0 z-50 mt-2 flex min-w-44 flex-col overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 py-4 px-4 shadow-lg shadow-black/40 origin-top-right transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
                                     isMenuOpen
                                         ? "pointer-events-auto visible opacity-100 scale-100 translate-y-0"
                                         : "pointer-events-none invisible opacity-0 scale-80 -translate-y-10",
