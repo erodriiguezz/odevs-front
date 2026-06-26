@@ -262,7 +262,7 @@ export default function HomePage() {
 
           <div className="text-center mt-12 pt-10 border-t border-zinc-200">
             <p className="text-zinc-500 text-sm mb-4">Interested in supporting the community?</p>
-            <Button href="#">Become a sponsor</Button>
+            <Button href="https://discord.gg/v6gchdH43K">Become a sponsor</Button>
           </div>
         </div>
       </section>
