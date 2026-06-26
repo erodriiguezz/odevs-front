@@ -20,7 +20,7 @@ export default function Header() {
     ] as const;
 
     const linkClass = (href: string) => [
-        "px-4 py-2 text-sm font-medium rounded-md transition-all",
+        "px-4 py-2 text-sm font-medium rounded-md transition-all leading-none",
         pathname === href
             ? "bg-zinc-850 text-white shadow-sm"
             : "text-zinc-400 hover:text-zinc-200",
@@ -101,13 +101,13 @@ export default function Header() {
                                         style={delayStyle(index)}
                                         className={[
                                             linkClass(href),
-                                            "text-left duration-300 ease-out inline-flex",
+                                            "w-full text-left duration-300 ease-out inline-flex",
                                             isMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-3 opacity-0",
                                         ].join(" ")}
                                     >{label}</Link>))}
                                     
                                     {discordButton(delayStyle(navItems.length), // geist sans is 0.71% font height  font-sm is 0.875rem
-                                        () => setIsMenuOpen(false), [`transition-all duration-300 ease-out mt-[${(0.71*0.875/2+0.5).toFixed(6)}rem]`,
+                                        () => setIsMenuOpen(false), [`transition-all duration-300 ease-out mt-2`,
                                                                      isMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-3 opacity-0",])}
                             </div>
                         </div>
@@ -119,7 +119,7 @@ export default function Header() {
                                 ))}
                             </nav>
                             <div className="flex items-center">
-                                {discordButton(undefined, () => {}, ["transition duration-150 py-2.5"])}
+                                {discordButton(undefined, () => {}, ["transition duration-150"])}
                             </div>
                         </>}
                 </div>
