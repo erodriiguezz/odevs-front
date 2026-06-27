@@ -1,6 +1,15 @@
 import { Button } from '@/components/ui/button'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export default function HomePage() {
+  const sponsors = [
+    { name: "Bluewave", href: "https://bluewave.com", logo: "/images/bluewave-logo.svg"},
+    { name: "Informulate", href: "https://informulate.com", logo: "/images/informulate-logo.svg"},
+    { name: "Envy Labs", href: "https://envylabs.com", logo: "/images/envy-logo.svg"},
+    { name: "Worth", href: "https://worthai.com", logo: "/images/worth-logo.svg"}
+  ] as const;
+  
   return (
     <>
       {/* Hero */}
@@ -235,25 +244,25 @@ export default function HomePage() {
               Made possible by our supporters
             </h2>
             <p className="text-base text-zinc-500 max-w-md mx-auto mt-2.5 leading-relaxed">
-              Placeholder — sponsor logos will appear here. Final copy will acknowledge each
-              partner's contribution to the community.
+              Thank you to our community sponsors!
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
-            {Array.from({ length: 5 }, (_, i) => (
-              <div
+          <div className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-${sponsors.length} gap-5`}>
+            {sponsors.map(({ href, logo, name }, i) => (
+              <Link
                 key={i}
-                className="h-16 border border-zinc-200 rounded-md bg-white flex items-center justify-center text-zinc-400 text-xs font-semibold"
+                href={href}
+                className="h-32 border border-zinc-200 rounded-lg bg-white flex items-center justify-center text-zinc-400 text-xs font-semibold"
               >
-                Logo
-              </div>
+                <Image src={logo} alt={name + " logo"} width={240} height={96} className="max-w-full max-h-full object-contain"/>
+              </Link>
             ))}
           </div>
 
           <div className="text-center mt-12 pt-10 border-t border-zinc-200">
             <p className="text-zinc-500 text-sm mb-4">Interested in supporting the community?</p>
-            <Button href="#">Become a sponsor</Button>
+            <Button href="https://discord.gg/v6gchdH43K">Become a sponsor</Button>
           </div>
         </div>
       </section>
