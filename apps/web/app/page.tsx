@@ -298,7 +298,7 @@ export default function HomePage() {
                 key={i}
                 href={url}
                 target="_blank"
-                className="border border-zinc-200 rounded-lg bg-white flex items-center justify-center text-zinc-400 text-xs font-semibold w-full h-full p-4"
+                className="border border-zinc-200 rounded-lg bg-white flex items-center justify-center text-zinc-400 text-xs font-semibold w-full h-full p-4 transition-all duration-200 hover:scale-105 hover:border-zinc-400"
               >
                 <Image src={logo} alt={name + " logo"} width={240} height={96} className="max-w-full max-h-full object-contain"/>
               </Link>
