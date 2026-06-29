@@ -1,9 +1,22 @@
+<<<<<<< HEAD
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 import sponsors from '@/lib/data/sponsors';
+=======
+import { Button } from '@/components/ui/button'
+import Image from 'next/image'
+import Link from 'next/link'
+>>>>>>> bf8f100b68d40d4dd0d1d399d9b763f10592856b
 
 export default function HomePage() {
+  const sponsors = [
+    { name: "Bluewave", href: "https://bluewave.com", logo: "/images/bluewave-logo.svg"},
+    { name: "Informulate", href: "https://informulate.com", logo: "/images/informulate-logo.svg"},
+    { name: "Envy Labs", href: "https://envylabs.com", logo: "/images/envy-logo.svg"},
+    { name: "Worth", href: "https://worthai.com", logo: "/images/worth-logo.svg"}
+  ] as const;
+  
   return (
     <>
       {/* Hero */}
@@ -240,10 +253,17 @@ export default function HomePage() {
           </div>
 
           <div className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-${sponsors.length} gap-5`}>
+<<<<<<< HEAD
             {Object.values(sponsors).map(({ url, logo, name }, i) => (
               <Link
                 key={i}
                 href={url}
+=======
+            {sponsors.map(({ href, logo, name }, i) => (
+              <Link
+                key={i}
+                href={href}
+>>>>>>> bf8f100b68d40d4dd0d1d399d9b763f10592856b
                 target="_blank"
                 className="h-32 border border-zinc-200 rounded-lg bg-white flex items-center justify-center text-zinc-400 text-xs font-semibold"
               >
