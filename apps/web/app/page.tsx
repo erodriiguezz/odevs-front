@@ -214,7 +214,6 @@ export default function HomePage() {
                 className="border border-zinc-200 rounded-xl p-5 flex flex-col gap-3.5 transition-all duration-200 hover:scale-105 hover:border-zinc-400"
                 role="listitem"
                 aria-label={`Group ${name}`}
-                aria-label={`Group ${name}`}
               >
                 <div className="flex justify-between mb-1.5">
                   <Image className={`w-full-auto h-full-auto rounded-xl p-3 ${background}`} src={icon} alt={icon.substring(icon.lastIndexOf("/"))} width={50} height={50}/>
