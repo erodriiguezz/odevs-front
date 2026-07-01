@@ -28,4 +28,5 @@ export interface CommunityGroup {
 export interface GroupCategory {
   name: string
   background: string
+  darkBackground: string
 }

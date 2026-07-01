@@ -95,7 +95,7 @@ export default ({ maxGroups, overflowPages, linkToGroupPage=false }: { maxGroups
                 <div className="flex justify-between mb-1.5">
                   <Image className={`w-full-auto h-full-auto rounded-xl p-3 ${background}`} src={icon} alt={icon.substring(icon.lastIndexOf("/"))} width={50} height={50}/>
                   <div className="flex flex-col items-center">
-                    <span className={`border ${background} px-2 py-1 font-semibold rounded-full flex m-auto text-xs text-white`}>{category.name}</span>
+                    <span className={`border ${category.background} px-2 py-1 font-semibold rounded-full flex m-auto text-xs text-white`}>{category.name}</span>
                   </div>
                 </div>
                 <p className="font-semibold text-lg text-zinc-600" >{name}</p>

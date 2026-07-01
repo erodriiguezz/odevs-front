@@ -1,6 +1,5 @@
 import groupCategories from './groupCategories';
 import { CommunityGroup } from '../types/group';
-import { colors } from './groupCategories';
 import propFromKeys from './propFromKeys';
 
 const uncoloredGroups: Record<string, Omit<Omit<CommunityGroup, "background">, "id">> = {
@@ -302,6 +301,24 @@ const uncoloredGroups: Record<string, Omit<Omit<CommunityGroup, "background">, "
     ],
   },
 };
+
+export const colors = [
+  { background: "bg-[#5B4FE9]"},
+  { background: "bg-[#EA580C]"},
+  { background: "bg-[#0D9488]"},
+  { background: "bg-[#E11D48]"},
+  { background: "bg-[#0284C7]"},
+  { background: "bg-[#D97706]"},
+  { background: "bg-[#7C3AED]"},
+  { background: "bg-[#059669]"},
+  { background: "bg-[#DB2777]"},
+  { background: "bg-[#0891B2]"},
+  { background: "bg-[#DC2626]"},
+  { background: "bg-[#65A30D]"},
+  { background: "bg-[#C026D3]"},
+  { background: "bg-[#2563EB]"},
+  { background: "bg-[#475569]"},
+]
 
 const groups: Record<string, CommunityGroup> =
   Object.fromEntries(
