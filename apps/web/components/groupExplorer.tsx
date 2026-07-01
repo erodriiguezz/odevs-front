@@ -1,30 +1,32 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import groups from '@/lib/data/groups';
 import groupCategories from '@/lib/data/groupCategories';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export default ({ maxGroups, overflowPages, linkToGroupPage=false }: { maxGroups: number, overflowPages?: { page: number }, linkToGroupPage?: boolean }) => {
-  const [selectedCategory, setselectedCategory] = useState("any");
-  const [selectedTopic, setselectedTopic] = useState("");
-  const [selectedSizeRange, setselectedSizeRange] = useState(["", ""]);
+  const params = new URLSearchParams(useSearchParams());
+  const { replace } = useRouter();
+  let pathname: string | undefined = undefined;
+  if (overflowPages !== undefined) pathname = usePathname();
 
-  const handleSelectedCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setselectedCategory(event.target.value);
-  };
+  const [category, setSelectedCategory] = useState(overflowPages === undefined ? "any" : params.get("category") ?? "any");
+  const [search, setSearch] = useState(overflowPages === undefined ? "" : params.get("search") ?? "");
+  const [sizeRangeLower, setSelectedSizeRangeLower] = useState(overflowPages !== undefined && params.get("lowerSizeRange") !== null ? params.get("lowerSizeRange") as string : "");
+  const [sizeRangeUpper, setSelectedSizeRangeUpper] = useState(overflowPages !== undefined && params.get("upperSizeRange") !== null ? params.get("upperSizeRange") as string : "");
 
-  const handleSelectedTopicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setselectedTopic(event.target.value);
-  };
+  const handleChange = <T,>(param: string, set: ((newVal: string) => void)) =>
+    (event: React.ChangeEvent<T> & {target: {value: string}}) => {
+      const val: string = event.target.value;
+      set(val);
 
-  const handleSelectedLowerSizeRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setselectedSizeRange([ event.target.value, selectedSizeRange[1]]);
-  };
-
-  const handleSelectedUpperSizeRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setselectedSizeRange([selectedSizeRange[0], event.target.value]);
-  };
+      if (overflowPages !== undefined) {
+        params.set(param, val);
+        params.set("page", "1");
+        replace(pathname + "?" + params.toString());
+      }
+    };
 
   function isIntegerString(val: string): val is `${number}` {
     const trimmed = val.trim();
@@ -35,29 +37,38 @@ export default ({ maxGroups, overflowPages, linkToGroupPage=false }: { maxGroups
   }
 
   let selectedGroups = Object.values(groups);
-  if (selectedCategory != "any") selectedGroups = selectedGroups.filter((group) => (selectedCategory == "any" ? true : group.category.name == selectedCategory));
+  if (category != "any") selectedGroups = selectedGroups.filter((group) => (category == "any" ? true : group.category.name == category));
 
-  const search = selectedTopic.toLowerCase();
-  if (selectedTopic != "") selectedGroups = selectedGroups.filter((group) => search.split(" ").every(word => group.name.toLowerCase().includes(word))
-                                                                          || search.split(" ").every(word => group.topic.toLowerCase().includes(word))
-                                                                          || search.split(" ").every(word => group.description.toLowerCase().includes(word))
-                                                                          || group.eventSources.some(source => search.split(" ").every(word => source.description?.toLowerCase().includes(word) ?? false)));
+  const searchWords = search.toLowerCase().split(" ");
+  if (search != "") selectedGroups = selectedGroups.filter((group) => searchWords.every(word => group.name.toLowerCase().includes(word))
+      || searchWords.every(word => group.topic.toLowerCase().includes(word))
+      || searchWords.every(word => group.description.toLowerCase().includes(word))
+      || group.eventSources.some(source => searchWords.every(word => source.description !== undefined ? source.description.toLowerCase().includes(word) : false)));
 
-  if (isIntegerString(selectedSizeRange[0])) selectedGroups = selectedGroups.filter((group) => (group.eventSources[0].members ?? 0) >= Number(selectedSizeRange[0]));
-  if (isIntegerString(selectedSizeRange[1])) selectedGroups = selectedGroups.filter((group) => (group.eventSources[0].members ?? 0) <= Number(selectedSizeRange[1]));
+  if (isIntegerString(sizeRangeLower)) selectedGroups = selectedGroups.filter((group) => (group.eventSources[0].members ?? 0) >= Number(sizeRangeLower));
+  if (isIntegerString(sizeRangeUpper)) selectedGroups = selectedGroups.filter((group) => (group.eventSources[0].members ?? 0) <= Number(sizeRangeUpper));
 
-  const pageGroups = selectedGroups.filter((group, i) => i < (overflowPages !== undefined ? overflowPages.page-1 : 0)*maxGroups + maxGroups && i > ((overflowPages !== undefined ? overflowPages.page : 0)-1)*maxGroups-1);
-
-  let pathname: string | undefined = undefined;
-  if (overflowPages !== undefined) pathname = usePathname();
+  const pageGroups = selectedGroups.filter((_, i) => i < (overflowPages !== undefined ? overflowPages.page-1 : 0)*maxGroups + maxGroups && i > ((overflowPages !== undefined ? overflowPages.page : 0)-1)*maxGroups-1);
 
   const numPages = Math.ceil(selectedGroups.length/maxGroups);
+
+  useEffect(() => {
+    if (overflowPages !== undefined && (overflowPages.page > numPages || overflowPages.page < 1)) {
+      params.set("page", Math.max(Math.min(overflowPages.page, numPages), 1).toString());
+      replace(pathname + "?" + params.toString());
+    }
+  }, [overflowPages?.page, numPages, pathname]);
+
+  const changeQueryString = (name: string, value: string) => {
+    params.set(name, value);
+    return params.toString();
+  };
 
   return  <>
             <div className="text-zinc-600 flex flex-row flex-wrap gap-10 mb-4">
               <div className="flex flex-row items-center gap-2">
                 <label htmlFor="category" className="whitespace-nowrap">Filter by category:&nbsp;</label>
-                <select value={selectedCategory} onChange={handleSelectedCategoryChange} className="border border-zinc-300 rounded-lg p-1">
+                <select value={category} onChange={handleChange("category", setSelectedCategory)} className="border border-zinc-300 rounded-lg p-1">
                   <option value="any">Any</option>
                   {Object.values(groupCategories).map(({ name }, i) =>
                     <option value={name} key={i}>{name}</option>
@@ -66,17 +77,17 @@ export default ({ maxGroups, overflowPages, linkToGroupPage=false }: { maxGroups
               </div>
 
               <div className="flex flex-row items-center gap-2 flex-1">
-                <label htmlFor="topic" className="whitespace-nowrap">Search:&nbsp;</label>
-                <input value={selectedTopic} onChange={handleSelectedTopicChange} className="border border-zinc-300 rounded-lg p-1 w-10 grow"></input>
+                <label htmlFor="search" className="whitespace-nowrap">Search:&nbsp;</label>
+                <input value={search} onChange={handleChange("search", setSearch)} className="border border-zinc-300 rounded-lg p-1 w-10 grow"></input>
               </div>
 
               <div className="flex items-center gap-2 flex-1">
-                <label htmlFor="topic" className="whitespace-nowrap">Filter by size range:</label>
-                <input value={selectedSizeRange[0]} onChange={handleSelectedLowerSizeRangeChange}
+                <label htmlFor="sizeRange" className="whitespace-nowrap">Filter by size range:</label>
+                <input value={sizeRangeLower} onChange={handleChange("lowerSizeRange", setSelectedSizeRangeLower)}
                     className="border border-zinc-300 rounded-lg p-1 w-10 grow">
                 </input>
                 <span>-</span>
-                <input value={selectedSizeRange[1]} onChange={handleSelectedUpperSizeRangeChange}
+                <input value={sizeRangeUpper} onChange={handleChange("upperSizeRange", setSelectedSizeRangeUpper)}
                     className="border border-zinc-300 rounded-lg p-1 w-10 grow">
                 </input>
               </div>
@@ -104,10 +115,16 @@ export default ({ maxGroups, overflowPages, linkToGroupPage=false }: { maxGroups
             ))}
             </div>
 
-            {overflowPages !== undefined &&
+            {pageGroups.length == 0 &&
+              <div className="flex flex-row justify-center">
+                <p className="text-zinc-700 text-xl font-bold">No results found!</p>
+              </div>
+            }
+
+            {overflowPages !== undefined && pageGroups.length != 0 &&
               <div className="flex flex-row justify-center items-center gap-2 mt-10">
                 <Link
-                  href={(pathname ?? "/") + `?page=${overflowPages.page-1}`}
+                  href={(pathname ?? "/") + "?" + changeQueryString("page", (overflowPages.page-1).toString())}
                   className={"transition-all duration-500 hover:scale-120 " + ((overflowPages.page-1 < 1) ? "pointer-events-none opacity-50" : "")}
                   tabIndex={(overflowPages.page-1 < 1) ? -1 : 0}
                 >
@@ -130,7 +147,7 @@ export default ({ maxGroups, overflowPages, linkToGroupPage=false }: { maxGroups
                 )}
 
                 <Link
-                  href={(pathname ?? "/") + `?page=${overflowPages.page+1}`}
+                  href={(pathname ?? "/")  + "?" + changeQueryString("page", (overflowPages.page+1).toString())}
                   className={"transition-all duration-500 hover:scale-120 " + ((overflowPages.page+1 > numPages) ? "pointer-events-none opacity-50" : "")}
                   tabIndex={(overflowPages.page+1 > numPages) ? -1 : 0}
                 >
