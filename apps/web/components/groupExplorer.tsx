@@ -38,10 +38,10 @@ export default ({ maxGroups, overflowPages, linkToGroupPage=false }: { maxGroups
   if (selectedCategory != "any") selectedGroups = selectedGroups.filter((group) => (selectedCategory == "any" ? true : group.category.name == selectedCategory));
 
   const search = selectedTopic.toLowerCase();
-  if (selectedTopic != "") selectedGroups = selectedGroups.filter((group) => group.topic.toLowerCase().includes(search)
-                                                                          || group.name.toLowerCase().includes(search)
-                                                                          || group.description.toLowerCase().includes(search)
-                                                                          || group.eventSources.some(source => source.description?.toLowerCase().includes(search) ?? false));
+  if (selectedTopic != "") selectedGroups = selectedGroups.filter((group) => search.split(" ").every(word => group.name.toLowerCase().includes(word))
+                                                                          || search.split(" ").every(word => group.topic.toLowerCase().includes(word))
+                                                                          || search.split(" ").every(word => group.description.toLowerCase().includes(word))
+                                                                          || group.eventSources.some(source => search.split(" ").every(word => source.description?.toLowerCase().includes(word) ?? false)));
 
   if (isIntegerString(selectedSizeRange[0])) selectedGroups = selectedGroups.filter((group) => (group.eventSources[0].members ?? 0) >= Number(selectedSizeRange[0]));
   if (isIntegerString(selectedSizeRange[1])) selectedGroups = selectedGroups.filter((group) => (group.eventSources[0].members ?? 0) <= Number(selectedSizeRange[1]));
