@@ -97,7 +97,7 @@ export default ({ maxGroups, overflowPages, linkToGroupPage=false }: { maxGroups
             {pageGroups.map(({ name, icon, category, description, eventSources, websiteUrl, background, id }, i) => (
               <Link
                 key={i}
-                href={linkToGroupPage ? `/group/${id}` : (websiteUrl ?? eventSources[0].url)}
+                href={linkToGroupPage ? `/groups/${id}` : (websiteUrl ?? eventSources[0].url)}
                 target="_blank"
                 className="border border-zinc-200 rounded-xl p-5 flex flex-col gap-3.5 transition-all duration-200 hover:scale-105 hover:border-zinc-400"
                 role="listitem"
