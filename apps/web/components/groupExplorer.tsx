@@ -33,7 +33,8 @@ export default ({ maxGroups, overflowPages, linkToGroupPage=false }: { maxGroups
   }
 
   let selectedGroups = Object.values(groups);
-  if (category != "any") selectedGroups = selectedGroups.filter((group) => (category == "any" ? true : group.category.name == category));
+  const cat = category.toLowerCase();
+  if (cat != "any") selectedGroups = selectedGroups.filter(group => group.category.name == cat);
 
   const searchWords = search.toLowerCase().split(" ");
   if (search != "") selectedGroups = selectedGroups.filter((group) => searchWords.every(word => group.name.toLowerCase().includes(word))
