@@ -2,7 +2,7 @@ import groupCategories from './groupCategories';
 import { CommunityGroup } from '../types/group';
 import propFromKeys from './propFromKeys';
 
-const uncoloredGroups: Record<string, Omit<Omit<CommunityGroup, "background">, "id">> = {
+const uncoloredGroups: Record<string, Omit<Omit<CommunityGroup, 'background'>, 'id'>> = {
   'lady-devs': {
     name: 'Lady Devs',
     icon: '/images/groups/icons/people.svg',
@@ -13,7 +13,7 @@ const uncoloredGroups: Record<string, Omit<Omit<CommunityGroup, "background">, "
       {
         platform: 'meetup',
         url: 'https://www.meetup.com/Orlando-Lady-Developers-Meetup',
-        title: "Orlando Lady Developers Meetup",
+        title: 'Orlando Lady Developers Meetup',
         description: 'Come explore tech with us. We are committed increasing the influence that women have in building the technologies that shape our culture and change our world.\n'
                    + 'Countless studies show the benefits of approaching problems with diverse teams, yet women are grossly underrepresented in tech departments, on software development teams, in AI, in technical graphic design, and computer science classrooms.\n'
                    + 'The more diversity we have in tech, the more inclusive the technologies that shape our culture will become.\n'
@@ -65,7 +65,7 @@ const uncoloredGroups: Record<string, Omit<Omit<CommunityGroup, "background">, "
         title: 'Open Orlando',
         description: 'Open Orlando (formerly known as Code for Orlando) is now a member of Orlando Devs and aims to bring the community together to improve Orlando through technology. We are a group of “civic hackers” from various disciplines who are committed to volunteering our talents to make a difference. We unite to improve the way residents and local government experience Orlando.',
         members: 2249,
-        image: 'images/groups/images/open-orlando-meetup.avif',
+        image: '/images/groups/images/open-orlando-meetup.avif',
       }, {
         platform: 'eventbrite',
         url: 'https://www.eventbrite.com/o/code-for-orlando-33511214869',
@@ -267,9 +267,9 @@ const uncoloredGroups: Record<string, Omit<Omit<CommunityGroup, "background">, "
       },
     ],
   },
-  'orlando-tech-and-beer': {
+  'otab': {
     name: 'Orlando Tech and Beer',
-    icon: 'images/groups/icons/people.svg',
+    icon: '/images/groups/icons/people.svg',
     category: groupCategories['Community'],
     topic: 'Social',
     description: 'Connect. Collaborate. Inspire.',
@@ -286,7 +286,7 @@ const uncoloredGroups: Record<string, Omit<Omit<CommunityGroup, "background">, "
   },
   'ai-plus-data-orlando': {
     name: 'AI + Data Orlando',
-    icon: 'images/groups/icons/lightning.svg',
+    icon: '/images/groups/icons/lightning.svg',
     category: groupCategories['Innovation'],
     topic: 'AI and Data',
     description: 'Orlando based AI, Data Analytics and Data Science Meetup group',
@@ -296,33 +296,33 @@ const uncoloredGroups: Record<string, Omit<Omit<CommunityGroup, "background">, "
         url: 'https://www.meetup.com/ai-data-analytics-and-data-science-orlando',
         title: 'AI + Data Orlando',
         description: 'Orlando based AI, Data Analytics and Data Science Meetup group to discuss latest topics in Artificial Intelligence, Generative AI, AI agents, Responsible AI, Ethics, Data Science, Data Analytics and networking',
-        image: '/images/groups/images/ai+data-meetup.avif',
+        image: '/images/groups/images/ai-plus-data-orlando-meetup.avif',
       }
     ],
   },
 };
 
 export const colors = [
-  { background: "bg-[#5B4FE9]"},
-  { background: "bg-[#EA580C]"},
-  { background: "bg-[#0D9488]"},
-  { background: "bg-[#E11D48]"},
-  { background: "bg-[#0284C7]"},
-  { background: "bg-[#D97706]"},
-  { background: "bg-[#7C3AED]"},
-  { background: "bg-[#059669]"},
-  { background: "bg-[#DB2777]"},
-  { background: "bg-[#0891B2]"},
-  { background: "bg-[#DC2626]"},
-  { background: "bg-[#65A30D]"},
-  { background: "bg-[#C026D3]"},
-  { background: "bg-[#2563EB]"},
-  { background: "bg-[#475569]"},
+  { background: 'bg-[#5B4FE9]'},
+  { background: 'bg-[#EA580C]'},
+  { background: 'bg-[#0D9488]'},
+  { background: 'bg-[#E11D48]'},
+  { background: 'bg-[#0284C7]'},
+  { background: 'bg-[#D97706]'},
+  { background: 'bg-[#7C3AED]'},
+  { background: 'bg-[#059669]'},
+  { background: 'bg-[#DB2777]'},
+  { background: 'bg-[#0891B2]'},
+  { background: 'bg-[#DC2626]'},
+  { background: 'bg-[#65A30D]'},
+  { background: 'bg-[#C026D3]'},
+  { background: 'bg-[#2563EB]'},
+  { background: 'bg-[#475569]'},
 ]
 
 const groups: Record<string, CommunityGroup> =
   Object.fromEntries(
-    Object.values(propFromKeys("id", uncoloredGroups))
+    Object.values(propFromKeys('id', uncoloredGroups))
       .map((group, i) => ({ ...group, ...colors[i] }))
       .sort((groupA, groupB) => (groupB.eventSources[0].members ?? 0) - (groupA.eventSources[0].members ?? 0))
       .map(group => [group.id, group])
